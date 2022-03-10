@@ -30,4 +30,4 @@ The components are connected to the ESP32 as follows:
 - joystick button to pin 15 (unused, but good to connect)
 - momentary switch to pin 26
 
-The full wiring diagram is as follows:
+[wiring diagram]
