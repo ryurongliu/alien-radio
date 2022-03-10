@@ -14,3 +14,4 @@ The distance from each alien radio station is displayed along the bottom of the 
 1. ADDITIVE-ALIEN: these aliens enjoy additive synthesis, with random sequencing based on an initial set of note frequencies.
 2. GLOOPY-ALIEN: these aliens play sine waves through lots of delays and panning, also randomized on initial frequencies.
 3. GRANULAR-ALIEN: these aliens use granular synthesis on pre-existing (human) music, with randomized grain selection and playback based on initial durations. 
+4. BACKWARD-ALIEN: these aliens like to play human music backwards, with LFO-swept panning.
