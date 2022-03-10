@@ -33,7 +33,7 @@ The components are connected to the ESP32 as follows:
 [wiring diagram]
 
 [inputs.ino](inputs.ino) will work with the above wiring; pin assignments can be changed in the macros as necessary. <br> <br> 
-[max_files/alienradio.maxpat](max_files/alienradio.maxpat) is the main MaxMSP patch. The serial port may need to be changed, depending on which port your ESP32 is connected to. Press the two large buttons in the top left to start the main driver metronomes, and then press the momentary switch to initialize a universe neighborhood. You can then enter presentation mode, turn on the audio, and start playing.  <br><img src="initialize-max.jpg" alt="MaxMSP patch initialization" width="100"/><br>
+[max_files/alienradio.maxpat](max_files/alienradio.maxpat) is the main MaxMSP patch. The serial port may need to be changed, depending on which port your ESP32 is connected to. Press the two large buttons in the top left to start the main driver metronomes, and then press the momentary switch to initialize a universe neighborhood. You can then enter presentation mode, turn on the audio, and start playing.  <br><p align="center"> <img src="images/initialize-max.jpg" alt="MaxMSP patch initialization" width="200"/></p>
 If you want GRANULAR-ALIEN and BACKWARDS-ALIEN to sample different human music, simply place two audio files into the folder containing alienradio.maxpat and rename them "grain-1.mp3" and "grain-2.mp3". 
 
 
