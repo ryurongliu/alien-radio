@@ -1,2 +1,2 @@
-# alien-radio
-Interactive mini music game with ESP32 and MaxMSP.
+# Alien Radio
+An interactive, musical minigame made with ESP32 and MaxMSP.
