@@ -24,13 +24,16 @@ The distance from each alien radio station is displayed along the bottom of the 
 
 ## Reproduction
 The components are connected to the ESP32 as follows: 
-- potentiometer to pin 12
-- joystick VX to pin 13
-- joystick VY to pin 25
-- joystick button to pin 15 (unused, but good to connect)
-- momentary switch to pin 26
-
-[wiring diagram]
+- potentiometer middle pin to ESP32 pin 12
+- potentiometer right pin to EPS32 3V
+- potentiometer left pin to ESP32 ground
+- joystick VRx to ESP32 pin 13
+- joystick VRy to ESP32 pin 25
+- joystick SW to ESP32 pin 15 (unused, but good to connect)
+- joystick 5V to ESP32 3V
+- joystick GR to ESP32 ground 
+- momentary switch one side to ESP32 pin 26
+- momentary switch other side to ESP32 ground
 
 [inputs.ino](inputs.ino) will work with the above wiring; pin assignments can be changed in the macros as necessary. <br> <br> 
 [max_files/alienradio.maxpat](max_files/alienradio.maxpat) is the main MaxMSP patch. The serial port may need to be changed, depending on which port your ESP32 is connected to. Press the two large buttons in the top left to start the main driver metronomes, and then press the momentary switch to initialize a universe neighborhood. You can then enter presentation mode, turn on the audio, and start playing.  <br><p align="center"> <img src="images/initialize-max.jpg" alt="MaxMSP patch initialization" width="200"/></p>
