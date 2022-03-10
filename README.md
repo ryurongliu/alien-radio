@@ -15,3 +15,19 @@ The distance from each alien radio station is displayed along the bottom of the 
 2. GLOOPY-ALIEN: these aliens play sine waves through lots of delays and panning, also randomized on initial frequencies.
 3. GRANULAR-ALIEN: these aliens use granular synthesis on pre-existing (human) music, with randomized grain selection and playback based on initial durations. 
 4. BACKWARD-ALIEN: these aliens like to play human music backwards, with LFO-swept panning.
+
+## Tech Specs
+- [TTGO T-Display ESP32 WiFi BLE](https://www.amazon.com/LILYGO-T-Display-Arduino-Development-CH9102F/dp/B099MPFJ9M)
+- potentiometer
+- joystick
+- momentary switch
+
+## Reproduction
+The components are connected to the ESP32 as follows: 
+- potentiometer to pin 12
+- joystick VX to pin 13
+- joystick VY to pin 25
+- joystick button to pin 15 (unused, but good to connect)
+- momentary switch to pin 26
+
+The full wiring diagram is as follows:
