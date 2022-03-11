@@ -3,6 +3,7 @@ An interactive mini music game made with ESP32 and MaxMSP. Travel the universe i
 
 ## [Video Demo](https://www.youtube.com/watch?v=H4B6xMbdaH4)
 [![Alien Radio Video Demo](https://img.youtube.com/vi/H4B6xMbdaH4/maxresdefault.jpg)](https://www.youtube.com/watch?v=H4B6xMbdaH4)
+See detailed explanation [here](https://ryurongliu.github.io/alien-radio/).
   
 ## Concept
 The hardware controller makes use of three inputs: a joystick, a potentiometer, and a momentary switch. 
