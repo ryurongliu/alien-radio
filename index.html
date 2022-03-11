@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alien Radio - Ranger Liu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="toppane">
+            <h1>Creative Embedded Systems, Project 2: Interactive Art</h1>
+            <br />
+            <h1>ALIEN RADIO</h1>
+        </div>
+    </div>
+    <div class="body">
+
+        <iframe width="100%" height="600px" src="https://www.youtube.com/embed/H4B6xMbdaH4"
+                title="YouTube video player" frameborder="0" allow="accelerometer; autoplay;
+                clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <br />
+        <br />
+        In this mini music game, explore the universe in search of alien radio stations playing alien music.
+        <br />
+        <br />
+        The button teleports you to new neighborhoods in the universe, the knob tunes your radio, and the joystick
+        moves you through the map. The screen displays the distance from each alien station, which appear
+        on the map once you come within 20 units of them. Station colors correspond to their channel frequencies -
+        try to tune your spacecraft to match, to get the clearest signal. Once you've found all four stations in this
+        neighborhood, feel free to teleport to a new neighborhood.
+        <br />
+        <br />
+        Our friendly neighborhood alien radio stations play four different types of music: ADDITIVE, GLOOPY, GRANULAR,
+        and BACKWARDS. Each neighborhood has its own subtle take on these genres - see if you can tell.
+        <br />
+        <br />
+        <br />
+        <span style="font-weight:bolder; font-size:20px">ARTISTIC VISION</span> <br />
+        This project idea was heavily influenced by the need to incorporate a potentiometer and a joystick.
+        The potentiometer made me think of a radio and tuning into frequencies, while the joystick made
+        me think of motion through a map. I also wanted to explore using jit.matrix objects in MaxMSP to create
+        interactive visuals, and I had aliens on the mind from discussing astrobiology for graduate school
+        programs. Eventually, I got the idea to tune into alien radio channels that would play different types of music.
+        <br />
+        <br />
+        I initially had the alien stations stay hidden throughout, but they were difficult to find without looking
+        at the distance measures and difficult to tune properly without looking at the frequency outputs. I therefore
+        decided to have the stations pop up on the map after discovery, as if you've marked them on the map.
+        <br />
+        <br />
+        The alien sounds themselves were created based on synthesis techniques I had previously explored
+        and wanted to play around with a bit more. This project gave me a good chance to experiment with building
+        small-scale patches focused on the very specific techniques of additive synthesis, delay, granular synthesis,
+        and reverse playback.
+        <br />
+        <br />
+        The hardware enclosure was designed to evoke both a physical radio and a handheld game controller, since it
+        functions as both.
+        <br />
+        <br />
+        <br />
+        <span style="font-weight:bolder; font-size:20px">REPRODUCTION</span> <br />
+        Reproduction information and tech specs are available at the <a href="https://github.com/ryurongliu/alien-radio">github repo</a>.
+        <br />
+        <br />
+        <br />
+
+
+
+
+
+
+
+
+        <span style="font-weight:bolder; font-size:20px">PATCH WALKTHROUGH</span> <br />
+        The main patch, alienradio.maxpat, is broken up into 15 sections.<br />
+        <br />
+        <img src="images/patch-overview.png" style="width: 100%"><br />
+        <br />
+
+
+        <b>Section 1</b> parses values from the serial connection and separates out the button press,
+        joystick xval, joystick yval, joystick button, and potentiometer val. The metronome in
+        this section polls the serial connection every 10ms.<br />
+        <br />
+        <figure>
+            <img src="images/section1.png" style="width:25%; margin-left: 37.5%; margin-right: 37.5% ">
+            <figcaption style="text-align: center">section 1</figcaption>
+        </figure><br />
+        <br />
+
+
+        <b>Section 2 </b>processes the joystick readings. The first JavaScript object,
+        <a href="max_files/joystick.js" target="_blank" rel="noopener noreferrer">joystick.js</a>,
+        turns the input values between 0-4095 into 0/1 for up/down motion, and 0/1 for left/right motion.
+        The second JavaScript object,
+        <a href="max_files/joystick.js" target="_blank" rel="noopener noreferrer">coords.js</a>, takes
+        these values as input. It keeps track of the spaceship’s current coordinates, and updates them
+        according to the up/down/left/right motion. This update gets polled every 80ms by the metronome
+        in <b>Section 2</b>, which controls the speed of the spaceship.
+        <br />
+        <figure>
+            <img src="images/section2.png" style="width:25%; margin-left: 37.5%; margin-right: 37.5% ">
+            <figcaption style="text-align: center">section 2</figcaption>
+        </figure><br />
+        <br />
+
+
+
+        <b>Section 3</b> processes the button press. It uses a trigger object to send out all the values
+        necessary to start all the tasks required to “teleport”: generate a new background of stars,
+        generate new alien station locations, generate new alien channel frequencies, and reset the
+        spaceship position to the center of the map.
+        <br />
+        <figure>
+            <img src="images/section3.png" style="width:40%; margin-left: 30%; margin-right: 30% ">
+            <figcaption style="text-align: center">section 3</figcaption>
+        </figure><br />
+        <br />
+
+
+
+        <b>Section 4</b> displays the spaceship on the map. It takes updated spaceship coordinate values
+        from <b>Section 2</b> (as well as the reset center coordinates from <b>Section 3</b>), and displays the spaceship
+        by toggling between two jit.matrix objects: imbuf1, which always only contains the background stars,
+        and imbuf2, on which the spaceship’s pixel is drawn.
+        <br />
+        <figure>
+            <img src="images/section4.png" style="width:40%; margin-left: 30%; margin-right: 30% ">
+            <figcaption style="text-align: center">section 4</figcaption>
+        </figure><br />
+        <br />
+
+
+
+
+        <b>Section 5 </b>generates the star background and the alien station locations. When the button is pressed,
+        Section 3 sends a bang to the JavaScript object
+        <a href="max_files/newspace.js" target="_blank" rel="noopener noreferrer">newspace.js</a>, which outputs
+        random coordinates for the stars and alien station. The stars get drawn onto both jit.matrix objects.
+        The alien station coordinates are sent out to other sections.
+        <br />
+        <figure>
+            <img src="images/section5.png" style="width:40%; margin-left: 30%; margin-right: 30% ">
+            <figcaption style="text-align: center">section 5</figcaption>
+        </figure><br />
+        <br />
+
+
+
+        <b>Section 6 </b>processes the potentiometer readings. The JavaScript object
+        <a href="max_files/pot.js" target="_blank" rel="noopener noreferrer">pot.js</a> assigns RGB values
+        to the spaceship according to the readings, and also converts the reading into a radio channel
+        “frequency” that the spaceship is “listening” to (the frequency is the variable ‘filt’ in pot.js).
+        <br />
+        <figure>
+            <img src="images/section6.png" style="width:40%; margin-left: 30%; margin-right: 30% ">
+            <figcaption style="text-align: center">section 6</figcaption>
+        </figure><br />
+        <br />
+
+
+
+
+        <b>Section 7</b> simply takes the alien station coordinates from <b>Section 5</b> and packs
+        them into a list, to send to <b>Section 8</b>.
+        <br />
+        <figure>
+            <img src="images/section7.png" style="width:40%; margin-left: 30%; margin-right: 30% ">
+            <figcaption style="text-align: center">section 7</figcaption>
+        </figure><br />
+        <br />
+
+
+
+        <b>Section 8</b> calculates the spaceship’s current distance from each alien station.
+        The JavaScript object
+        <a href="max_files/distance.js" target="_blank" rel="noopener noreferrer">distance.js</a>
+        takes in the spaceship’s current coordinates as well as each of the alien station coordinates,
+        and it computes the Euclidean distance to each station.
+        <br />
+        <figure>
+            <img src="images/section8.png" style="width:40%; margin-left: 30%; margin-right: 30% ">
+            <figcaption style="text-align: center">section 8</figcaption>
+        </figure><br />
+        <br />
+
+
+
+
+        <b>Section 9 </b>marks the alien locations on the map once the spaceship reaches a proximity
+        of 20 distance units. It uses each alien stations’ channel “frequency” (calculated in <b>Section 10</b>)
+        to calculate the station’s RGB values, and draws the station’s pixel onto both jit.matrix objects
+        once the distance is less than 20.
+        <br />
+        <figure>
+            <img src="images/section9.png" style="width:100%">
+            <figcaption style="text-align: center">section 9</figcaption>
+        </figure><br />
+        <br />
+
+
+
+        <b>Section 10 </b>generates each station’s channel frequency, and also calculates the volume of
+        each channel. When the button is pressed, Section 3 sends a bang to the JavaScript object
+        <a href="max_files/channel.js" target="_blank" rel="noopener noreferrer">channel.js</a>, which then
+        generates random channel frequencies. channel.js also takes in the current spaceship frequency
+        and the current distances to each alien station, and outputs volume such that the station is
+        louder when within 20 distance units, and loudest when it is within range and tuned into the
+        proper frequency. It also calculates the volume for the radio “static”.
+        <br />
+        <figure>
+            <img src="images/section10.png" style="width:50%; margin-left: 25%; margin-right: 25% ">
+            <figcaption style="text-align: center">section 10</figcaption>
+        </figure><br />
+        <br />
+
+
+
+
+
+        <b>Section 11</b> controls the radio “static” sound. It consists of white noise through a
+        simple bandpass filter, whose filter frequency is controlled by the potentiometer.
+        <br />
+        <figure>
+            <img src="images/section11.png" style="width:10%; margin-left: 45%; margin-right: 45% ">
+            <figcaption style="text-align: center">section 11</figcaption>
+        </figure><br />
+        <br />
+
+
+
+        <b>Sections 12-15</b> are the source of the alien radios’ sounds.
+        They each (except backwards-alien) take initial values generated by
+        <a href="max_files/seqgen.js" target="_blank" rel="noopener noreferrer">seqgen.js</a>
+        at each “teleport”.
+        <br />
+        <figure>
+            <img src="images/soundsections.png" style="width:70%; margin-left: 15%; margin-right: 15% ">
+            <figcaption style="text-align: center">section 12</figcaption>
+        </figure><br />
+        <br />
+
+
+
+
+        <span style="font-weight:bolder; font-size:20px">SOUND PATCHES</span> <br />
+        <br />
+        <b>1. ADDITIVE-ALIEN</b><br />
+        <br />
+        <img src="images/additive-alien.png" style="width: 100%"><br />
+        <br />
+        <b>Sound generation:</b> This first sound uses simple additive synthesis of ten sine waves,
+        each with its own amplitude envelope and frequency multiplier. It was developed with inspiration
+        from
+        <a href="https://www.youtube.com/watch?v=gMIVJ8DqMhs" target="_blank" rel="noopener noreferrer">this Youtube video</a>.
+        I also added a very simple delay line.<br />
+        <b>Sequencing:</b> The sequencer takes ten initial frequency values, provided by
+        <a href="max_files/seqgen.js" target="_blank" rel="noopener noreferrer">seqgen.js</a>.
+        It randomizes the duration of each note, and also shuffles the order of the initial frequencies
+        at random intervals.<br />
+        <br />
+        <br />
+
+        <b>2. GLOOP-ALIEN</b><br />
+        <br />
+        <img src="images/gloopy-alien.png" style="width: 100%"><br />
+        <br />
+        <b>Sound generation:</b> this sound uses a sine wave through a randomized delay
+        line developed from
+        <a href="https://www.youtube.com/watch?v=8ovgYEdfIV8" target="_blank" rel="noopener noreferrer">
+            this Youtube video
+        </a>, and pans the dry signal with an LFO.<br />
+        <b>Sequencing:</b> The sequencer takes eight initial frequency values provided by
+        <a href="max_files/seqgen.js" target="_blank" rel="noopener noreferrer">seqgen.js</a>,
+        and sets the sine wave frequency at random times. The simple amplitude envelope is triggered every second.<br />
+        <br />
+        <br />
+
+
+        <b>3. GRANULAR-ALIEN</b><br />
+        <br />
+        <img src="images/granular-alien.png" style="width: 100%"><br />
+        <br />
+        <b>Sound generation:</b> this sound samples two audio files,
+        <a href="max_files/grain-1.mp3" target="_blank" rel="noopener noreferrer">grain-1.mp3</a> and
+        <a href="max_files/grain-2.mp3" target="_blank" rel="noopener noreferrer">grain-2.mp3</a>,
+        and performs granular synthesis developed from
+        <a href="https://www.youtube.com/watch?v=g3nAeDWgf9Y" target="_blank" rel="noopener noreferrer">
+            this Youtube video
+        </a>. I also added mirrored panning to both.<br />
+        <b>Sequencing:</b> The sequencer takes eight initial duration values provided by
+        <a href="max_files/seqgen.js" target="_blank" rel="noopener noreferrer">seqgen.js</a>,
+        and iterates through them at random intervals. These duration values are also used
+        to generate the pan values.<br />
+        <br />
+        <br />
+
+
+        <b>4. BACKWARDS-ALIEN</b><br />
+        <br />
+        <img src="images/backwards-alien.png" style="width: 60%;margin-left: 20%; margin-right: 20%"><br />
+        <br />
+        This very simple patch plays <a href="max_files/grain-1.mp3" target="_blank" rel="noopener noreferrer">grain-1.mp3</a> and
+        <a href="max_files/grain-2.mp3" target="_blank" rel="noopener noreferrer">grain-2.mp3</a> backwards, and pans them in opposite
+        directions with an LFO.<br />
+        <br />
+        Thanks for reading!
+</body>
+</html>
